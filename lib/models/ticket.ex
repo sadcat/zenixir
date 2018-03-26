@@ -234,6 +234,15 @@ defmodule Zendesk.Ticket do
     error_msg: "Wrong priority passed")
   end
 
+  @doc """
+  Set upload token to ticket
+
+  `token`: the upload token from attachment api response when file is uploaded
+  """
+  def set_attachments(ticket, tokens) do
+    put_in(ticket, [:comment, :uploads], tokens)
+  end
+
   def to_json(ticket) do
     Poison.encode!(ticket)
   end
