@@ -5,7 +5,7 @@ defmodule Zendesk.OrganizationMembership do
 
   import Zendesk.CommonUtils
 
-  def new(user_id, organization_id) do
+  def new(user_id: user_id, organization_id: organization_id) do
     %{user_id: user_id, organization_id: organization_id}
   end
 

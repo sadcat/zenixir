@@ -102,6 +102,7 @@ defmodule Zendesk do
       alias Zendesk.Request
       alias Zendesk.View
       alias Zendesk.OrganizationMembership
+      alias Zendesk.User
     end
   end
 

@@ -14,7 +14,15 @@ defmodule Zendesk.UserApi do
   @current_user "/users/me.json"
 
   use Zendesk.CommonApi
+  alias Zendesk.User
 
+
+  def create_user(account, user) do
+    perform_request(&parse_get_user/1, account: account, verb: :post,
+    endpoint: @endpoint,
+    headers: headers,
+    body: User.to_json(user))
+  end
 
   @doc """
   Get all the users
@@ -95,6 +103,10 @@ defmodule Zendesk.UserApi do
   end
 
   # Private
+
+  defp headers do
+    ["Content-Type": "application/json"]
+  end
 
   defp parse_get_users(response) do
     Zendesk.User.from_json_array(response)
