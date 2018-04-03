@@ -12,6 +12,10 @@ defmodule Zendesk.User do
     %{name: name, email: email}
   end
 
+  def add_organization(user, organization_id: organization_id) do
+    Map.put(user, :organization_id, organization_id)
+  end
+
 
   @doc """
   Decode a JSON to a Map
