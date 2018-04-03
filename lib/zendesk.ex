@@ -93,6 +93,7 @@ defmodule Zendesk do
       import Zendesk.TriggersApi
       import Zendesk.TargetsApi
       import Zendesk.AutomationsApi
+      import Zendesk.OrganizationMembershipApi
 
       alias Zendesk.Account
       alias Zendesk.Client
@@ -100,6 +101,7 @@ defmodule Zendesk do
       alias Zendesk.TicketField
       alias Zendesk.Request
       alias Zendesk.View
+      alias Zendesk.OrganizationMembership
     end
   end
 
