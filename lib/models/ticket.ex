@@ -243,6 +243,15 @@ defmodule Zendesk.Ticket do
     put_in(ticket, [:comment, :uploads], tokens)
   end
 
+  @doc """
+  Set organization id
+
+  `organization_id`: the organization id
+  """
+  def set_organization_id(ticket, organization_id) do
+    Map.put(ticket, :organization_id, organization_id)
+  end
+
   def to_json(ticket) do
     Poison.encode!(ticket)
   end
