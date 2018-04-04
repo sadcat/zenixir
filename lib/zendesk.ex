@@ -94,6 +94,7 @@ defmodule Zendesk do
       import Zendesk.TargetsApi
       import Zendesk.AutomationsApi
       import Zendesk.OrganizationMembershipApi
+      import Zendesk.OrganizationApi
 
       alias Zendesk.Account
       alias Zendesk.Client
@@ -103,6 +104,7 @@ defmodule Zendesk do
       alias Zendesk.View
       alias Zendesk.OrganizationMembership
       alias Zendesk.User
+      alias Zendesk.Organization
     end
   end
 

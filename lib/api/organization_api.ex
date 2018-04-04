@@ -8,9 +8,19 @@ defmodule Zendesk.OrganizationApi do
   @show_organization "/organizations/%s.json"
   @oraganization_for_user "/users/%s/organizations.json"
   @autocomplete_organizations "/organizations/autocomplete.json?name=%s"
+  @create_or_update_organization "/organizations/create_or_update.json"
 
   use Zendesk.CommonApi
+  alias Zendesk.Organization
 
+
+  def create_or_update_organization(account, organization) do
+    perform_request(&parse_organization/1, account: account, verb: :post,
+    endpoint: @create_or_update_organization,
+    headers: headers(),
+    body: Organization.to_json(organization))
+
+  end
 
   @doc """
   Get all the organizations
@@ -51,8 +61,12 @@ defmodule Zendesk.OrganizationApi do
 
   # Private
 
+  defp headers do
+    ["Content-Type": "application/json"]
+  end
+
   defp parse_organization(response) do
-    Poison.Parser.parse(response, keys: :atoms) |> elem(1) |> Dict.get(:organization)
+    Poison.Parser.parse(response, keys: :atoms) |> elem(1) |> Map.get(:organization)
   end
 
   defp parse_get_organizations(response) do

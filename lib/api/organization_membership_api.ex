@@ -11,7 +11,7 @@ defmodule Zendesk.OrganizationMembershipApi do
   def create_organization_membership(account, organization_membership) do
     perform_request(&parse_single_organization_membership/1, account: account, verb: :post,
     endpoint: @create_organization_membership,
-    headers: headers,
+    headers: headers(),
     body: OrganizationMembership.to_json(organization_membership))
   end
 

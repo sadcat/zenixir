@@ -3,7 +3,6 @@ defmodule Zendesk.OrganizationMembership do
   Zendesk Organization membership
   """
 
-  import Zendesk.CommonUtils
 
   def new(user_id: user_id, organization_id: organization_id) do
     %{user_id: user_id, organization_id: organization_id}
@@ -14,7 +13,7 @@ defmodule Zendesk.OrganizationMembership do
   end
 
   def from_json(json) do
-    Poison.Parser.parse(json, keys: :atoms) |> elem(1) |> Dict.get(:organization_membership)
+    Poison.Parser.parse(json, keys: :atoms) |> elem(1) |> Map.get(:organization_membership)
   end
 
 end

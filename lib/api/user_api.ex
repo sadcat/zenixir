@@ -20,7 +20,7 @@ defmodule Zendesk.UserApi do
   def create_user(account, user) do
     perform_request(&parse_get_user/1, account: account, verb: :post,
     endpoint: @endpoint,
-    headers: headers,
+    headers: headers(),
     body: User.to_json(user))
   end
 
