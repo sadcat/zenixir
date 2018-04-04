@@ -3,13 +3,20 @@ defmodule Zendesk.User do
   Zendesk User
   """
 
-  def new(name: name, email: email) do
-    %{name: name, email: email}
+  def new(name: name, external_id: external_id) do
+    %{name: name, external_id: external_id}
   end
 
-  def new(email: email) do
-    name = Regex.split(~r{@}, email) |> List.first
-    %{name: name, email: email}
+  def add_email(user, email: email) do
+    Map.put(user, :email, email)
+  end
+
+  def add_phone(user, phone: phone) do
+    Map.put(user, :phone, phone)
+  end
+
+  def add_timezone(user, time_zone: time_zone) do
+    Map.put(user, :time_zone, time_zone)
   end
 
   def add_organization(user, organization_id: organization_id) do
