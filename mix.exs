@@ -37,13 +37,13 @@ defmodule NewTest.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.9"},
-      {:poison, "~> 2.0"},
+      {:httpoison, "~> 1.1"},
+      {:poison, "~> 3.1"},
       {:exprintf, "~> 0.2.1"},
-      {:exvcr, "~> 0.7", only: :test},
-      {:excoveralls, "~> 0.5", only: :test},
-      {:inch_ex, ">= 0.0.0", only: :docs},
-      {:ex_doc, "~> 0.12", only: :dev}
+      {:exvcr, "~> 0.10", only: :test},
+      {:excoveralls, "~> 0.8.1", only: :test},
+      {:inch_ex, "~> 0.5.6", only: :docs},
+      {:ex_doc, "~> 0.18", only: :dev}
     ]
   end
 end
