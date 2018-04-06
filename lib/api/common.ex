@@ -1,5 +1,6 @@
 defmodule Zendesk.CommonApi do
 
+  require Logger
   defmacro __using__(_) do
     quote do
 
@@ -43,7 +44,7 @@ defmodule Zendesk.CommonApi do
   end
 
   def parse_response(%HTTPoison.Response{status_code: status_code, body: body}, _parse_method, _endpoint)
-  when status_code == 401 or status_code == 404 do
+  when status_code >= 400 do
     Zendesk.Error.from_json(body)
   end
   def parse_response(%HTTPoison.Response{status_code: status_code}, parse_method, _)
@@ -72,32 +73,32 @@ defmodule Zendesk.CommonApi do
     auth = List.first(params)
     case auth do
       [hackney: _] ->
-        HTTPoison.get!(url, [], auth)
+        HTTPoison.get!(url, [], auth ++ set_httpoison_timedout())
       _ ->
-        HTTPoison.get!(url, auth, [])
+        HTTPoison.get!(url, auth, [] ++ set_httpoison_timedout())
     end
   end
   def http_request(params, :put, url) do
     case length(params) do
       1 ->
         [auth] = params
-        HTTPoison.put!(url, "", [], auth)
+        HTTPoison.put!(url, "", [], auth ++ set_httpoison_timedout())
       3 ->
         [auth, {:body, body}, {:headers, headers}] = params
-        HTTPoison.put!(url, body, headers, auth)
+        HTTPoison.put!(url, body, headers, auth ++ set_httpoison_timedout())
     end
   end
   def http_request(params, :post, url) do
     [auth, {:body, body}, {:headers, headers}] = params
-    HTTPoison.post!(url, body, headers, auth)
+    HTTPoison.post!(url, body, headers, auth ++ set_httpoison_timedout())
   end
   def http_request(params, :upload, url) do
     [auth, {:body, body}, {:headers, headers}] = params
-    HTTPoison.post!(url, body, headers, auth)
+    HTTPoison.post!(url, body, headers, auth ++ set_httpoison_timedout())
   end
   def http_request(params, :delete, url) do
     auth = List.first(params)
-    HTTPoison.delete!(url, [], auth)
+    HTTPoison.delete!(url, [], auth ++ set_httpoison_timedout())
   end
 
   defp empty_params do
@@ -122,4 +123,14 @@ defmodule Zendesk.CommonApi do
     params ++ [headers: headers]
   end
 
+  defp set_httpoison_timedout() do
+    timeout = System.get_env("HTTPOISON_TIMEOUT")
+    recv_timeout = System.get_env("HTTPOISON_RECV_TIMEOUT")
+
+    if timeout == nil && recv_timeout == nil do
+      [{:timeout, 120000}, {:recv_timeout, 60000}]
+    else
+      [{:timeout, String.to_integer(timeout)}, {:recv_timeout, String.to_integer(recv_timeout)}]
+    end
+  end
 end
