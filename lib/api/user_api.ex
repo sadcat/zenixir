@@ -12,6 +12,7 @@ defmodule Zendesk.UserApi do
   @searches_users "/users/search.json?query=\"%s\""
   @autocomplete_users "/users/autocomplete.json?name=\"%s\""
   @current_user "/users/me.json"
+  @creaee_or_update_user "/users/create_or_update.json"
 
   use Zendesk.CommonApi
   alias Zendesk.User
@@ -20,6 +21,13 @@ defmodule Zendesk.UserApi do
   def create_user(account, user) do
     perform_request(&parse_get_user/1, account: account, verb: :post,
     endpoint: @endpoint,
+    headers: headers(),
+    body: User.to_json(user))
+  end
+
+  def create_or_update_user(account, user) do
+    perform_request(&parse_get_user/1, account: account, verb: :post,
+    endpoint: @creaee_or_update_user,
     headers: headers(),
     body: User.to_json(user))
   end
